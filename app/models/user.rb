@@ -5,12 +5,14 @@ class User < ApplicationRecord
   has_many :food_intakes
   has_many :activity_levels
 
-  validates :username, :height, :weight, :bmi, prescence: true
-  validates :height, :weight, :bmi, numericality: true
+  validates :username, :height, :weight, presence: true
+  validates :username, uniqueness: true
+  validates :height, :weight, numericality: true
 
   private
 
   def calculate_bmi
-    self.bmi = weight / (height * height)
+    return self.bmi = 0.00 if weight == 0.00 && height == 0.00
+    self.bmi = (weight / (height * height)).round(2)
   end
 end

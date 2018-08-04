@@ -14,3 +14,12 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function() {
+    $('#new-user').click(function() {
+
+    });
+    $('#existing-user').click(function() {
+
+    });
+})

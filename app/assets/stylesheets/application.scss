@@ -13,4 +13,19 @@
  *= require_tree .
  *= require_self
  */
- @import "materialize";
+
+ nav {
+    background-color: darkcyan;
+ }
+
+ .brand-logo > img {
+    width: 30%;
+ }
+
+ #new-user {
+    margin-right: 2%;
+ }
+
+ #existing-user #new-user {
+    border-radius: 5px;
+ }
