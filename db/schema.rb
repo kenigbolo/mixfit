@@ -10,9 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2018_08_04_091645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "activity_levels", force: :cascade do |t|
+    t.integer "vitamin_c"
+    t.integer "vitamin_d3"
+    t.integer "iron"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_activity_levels_on_user_id"
+  end
+
+  create_table "food_intakes", force: :cascade do |t|
+    t.integer "vitamin_c"
+    t.integer "vitamin_d3"
+    t.integer "iron"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_food_intakes_on_user_id"
+  end
+
+  create_table "recipes", force: :cascade do |t|
+    t.integer "vitamin_c"
+    t.integer "vitamin_d3"
+    t.integer "iron"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_recipes_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.decimal "wieght"
+    t.decimal "height"
+    t.decimal "bmi"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "activity_levels", "users"
+  add_foreign_key "food_intakes", "users"
+  add_foreign_key "recipes", "users"
 end

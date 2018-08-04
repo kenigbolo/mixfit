@@ -4,6 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :username
       t.decimal :wieght
       t.decimal :height
+      t.decimal :bmi
 
       t.timestamps
     end
