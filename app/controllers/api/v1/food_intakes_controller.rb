@@ -1,16 +1,26 @@
 # Api V1 Users::FoodIntakesController
 module Api
   module V1
-    # FoodIntakesController .order("updated_at").last
+    # FoodIntakesController
     class FoodIntakesController < Api::V1::BaseController
-      before_action :set_user
+      before_action :set_user, :set_service
 
       def create
-        save_food_intake
+        result = @food_intake_service.create_food_intake
+        if result.success?
+          render json: result.user, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
       end
 
       def update
-        update_food_intake
+        result = @food_intake_service.update_food_intake(params[:id])
+        if result.success?
+          render json: result.user, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
       end
 
       private
@@ -22,25 +32,12 @@ module Api
 
       def set_user
         @user = User.find_by(id: params[:user_id])
-        return render json: { error: 'No existing user with id ' + params[:user_id] } unless @user.present?
+        return if @user.present?
+        render json: { error: 'No existing user with id ' + params[:user_id] }
       end
 
-      def save_food_intake
-        food_intake = @user.food_intakes.new(food_intake_params)
-        if food_intake.save
-          render json: @user.attributes.merge(food_intake: food_intake), status: :ok
-        else
-          render json: food_intake.errors, status: :unprocessable_entity
-        end
-      end
-
-      def update_food_intake
-        food_intake = FoodIntake.find_by(id: params[:id])
-        if food_intake&.update_attributes(food_intake_params)
-          render json: @user.attributes.merge(food_intake: food_intake), status: :ok
-        else
-          render json: food_intake.errors, status: :unprocessable_entity
-        end
+      def set_service
+        @food_intake_service = FoodIntakeService.new(@user, food_intake_params)
       end
     end
   end

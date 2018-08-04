@@ -3,32 +3,38 @@ module Api
   module V1
     # Users::RecipesController
     class RecipesController < Api::V1::BaseController
-      before_action :set_user
+      before_action :set_user, :set_service
 
       def index
-        return render json: user.recipes, status: :ok if @user.recipes.present?
-        render json: { message: 'No recipes generated yet for ' + @user.username }
+        @recipes = @recipe_service.user_recipes
+        render json: @recipes, status: :ok
       end
 
       def new
-        generate_recipe
+        result = @recipe_service.generate_recipe
+        if result.success?
+          render json: result.user, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
       end
 
       def show
-        recipe = Recipe.find_by(id: params[:id])
-        return render json: recipe, status: :ok if recipe.present?
-        render json: { error: 'No recipe with id ' + params[:id] }, status: :unprocessable_entity
+        recipe = Recipe.find_by_id(params[:id])
+        return render json: recipe.to_builder.target!, status: :ok if recipe
+        render json: { error: 'No recipe with id ' + params[:id] }
       end
 
       private
 
       def set_user
-        @user = User.find_by(id: params[:user_id])
-        return render json: { error: 'No existing user with id ' + params[:user_id] } unless @user.present?
+        @user = User.find_by_id(params[:user_id])
+        return if @user
+        render json: { error: 'No existing user with id ' + params[:user_id] }
       end
 
-      def generate_recipe
-        #
+      def set_service
+        @recipe_service = RecipeService.new(@user)
       end
     end
   end

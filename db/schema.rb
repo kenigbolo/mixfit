@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_04_091645) do
+ActiveRecord::Schema.define(version: 2018_08_04_213722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,12 +42,16 @@ ActiveRecord::Schema.define(version: 2018_08_04_091645) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "activity_level_id"
+    t.bigint "food_intake_id"
+    t.index ["activity_level_id"], name: "index_recipes_on_activity_level_id"
+    t.index ["food_intake_id"], name: "index_recipes_on_food_intake_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.decimal "wieght"
+    t.decimal "weight"
     t.decimal "height"
     t.decimal "bmi"
     t.datetime "created_at", null: false
@@ -56,5 +60,7 @@ ActiveRecord::Schema.define(version: 2018_08_04_091645) do
 
   add_foreign_key "activity_levels", "users"
   add_foreign_key "food_intakes", "users"
+  add_foreign_key "recipes", "activity_levels"
+  add_foreign_key "recipes", "food_intakes"
   add_foreign_key "recipes", "users"
 end

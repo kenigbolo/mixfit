@@ -3,19 +3,25 @@ module Api
   module V1
     # UsersController
     class UsersController < Api::V1::BaseController
+      before_action :set_service, :set_user
       def create
-        @user = User.find_by(username: user_params[:username])
-        if @user.present?
-          render json: @user, status: :ok
+        return render json: @user, status: :ok if @user.present?
+        result = @user_service.create_user
+        if result.success?
+          render json: result.user, status: :ok
         else
-          create_user
+          render json: result.errors, status: :unprocessable_entity
         end
       end
 
       def update
-        set_user
-        return update_user if @user.present?
-        render json: { message: 'No user matching id ' + params[:id] }
+        return render json: err_json unless @user.present?
+        result = @user_service.update_user(@user)
+        if result.success?
+          render json: result.user, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
       end
 
       private
@@ -26,31 +32,15 @@ module Api
       end
 
       def set_user
-        @user = User.find_by(id: params['id'])
+        @user = User.find_by_id(params[:id]) || User.find_by_username(user_params[:username])
       end
 
-      def user_params_filtered
-        params = user_params
-        params['weight'] = 0.00 if params['weight'].nil?
-        params['height'] = 0.00 if params['height'].nil?
-        params
+      def set_service
+        @user_service = UserService.new(user_params)
       end
 
-      def create_user
-        @user = User.new(user_params_filtered)
-        if @user.save
-          render json: @user, status: :ok
-        else
-          render json: @user.errors, status: :unprocessable_entity
-        end
-      end
-
-      def update_user
-        if @user.update_attributes(user_params)
-          render json: @user, status: :ok
-        else
-          render json: @user.errors, status: :unprocessable_entity
-        end
+      def err_json
+        { error: 'No existing user with id ' + params[:id] }
       end
     end
   end
