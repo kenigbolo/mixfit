@@ -15,7 +15,7 @@ class User < ApplicationRecord
       user.weight weight
       user.height height
       user.bmi bmi
-      user.created_at created_at.strftime("%Y-%m-%d")
+      user.created_at created_at.strftime('%Y-%m-%d')
     end
   end
 
