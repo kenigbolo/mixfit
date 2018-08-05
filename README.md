@@ -44,7 +44,7 @@ or
 
 ## Authentication
 
-This demo project comes without any authentication whatsoever however if you wish to implement authentication then hoking it up to json web token will simply fix that seamlessly
+This demo project comes without any authentication whatsoever however if you wish to implement authentication then hooking it up to json web token will simply fix that seamlessly
 
 ## API Main Features
 * Create and Update User
@@ -85,9 +85,9 @@ A post request with the body structure below
 ```ruby
   { "user": {"username": "test-user", "weight": 80, "height": 1.73 } }
 ```
-when sent to the endpoint `/api/v1/users(.:format)` will automatically first search for an existing user with the the username `test-user`. If it finds a database record then it returns the `user` object. If it fails to find a `user` record persisted in the database then it creates a new record and returns the new `user` object and attaches the calculated BMI in the returend response. To update a user record the `put` or `patch` request to the update user endpoint must still conform to the body structure above.
+when sent to the endpoint `/api/v1/users(.:format)` will automatically first search for an existing user with the the username `test-user`. If it finds a database record then it returns the `user` object. If it fails to find a `user` record persisted in the database then it creates a new record and returns the new `user` object as well as attaching the calculated BMI in the returend response. To update a user record `weight` and `height`, the `put` or `patch` request to the update user endpoint must still conform to the body structure above.
 
-The parameters `weight` and `height` permit only numbers i.e. integers and decimals. `Weight` expects value in `Kilograms` while `Height` expects it's values in `Meters`. This values are expected in those units in order to accurately calcukate you `Body Mass Index` returned as `bmi`
+The parameters `weight` and `height` permit only numbers i.e. integers and decimals. `Weight` expects value in `Kilograms` while `Height` expects it's values in `Meters`. These values are expected in those units in order to accurately calculate your `Body Mass Index` returned as `bmi`
 
 
 #### API Endpoints (Activity Level) - /api/v1/:user_id/activity_levels...
