@@ -101,7 +101,7 @@ The basic request structure conforms to the structure below
   { "activity_level": {"vitamin_c": 1, "vitamin_d3": 2, "iron": 3} }
 ```
 
-The values of `vitamin_c`, `vitamin_d3`, and `iron` must always be a positive integer between the range `1..13`
+The values of `vitamin_c`, `vitamin_d3`, and `iron` must always be a positive integer between the range `1..3`
 
 #### API Endpoints (Food Intake) - /api/v1/:user_id/food_intakes...
 
