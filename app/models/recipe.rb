@@ -3,7 +3,7 @@ class Recipe < ApplicationRecord
   belongs_to :user
   belongs_to :activity_level
   belongs_to :food_intake
-  
+
   validates :vitamin_c, :vitamin_d3, :iron, presence: true
   validates :vitamin_c, :vitamin_d3, :iron, numericality: { only_integer: true }
   validates_inclusion_of :vitamin_c, :vitamin_d3, :iron, in: 1..10

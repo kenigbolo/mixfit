@@ -9,6 +9,16 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
   validates :height, :weight, numericality: true
 
+  def to_builder
+    Jbuilder.new do |user|
+      user.id id
+      user.weight weight
+      user.height height
+      user.bmi bmi
+      user.created_at created_at.strftime("%Y-%m-%d")
+    end
+  end
+
   private
 
   def calculate_bmi

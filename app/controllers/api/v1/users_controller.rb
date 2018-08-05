@@ -5,7 +5,7 @@ module Api
     class UsersController < Api::V1::BaseController
       before_action :set_service, :set_user
       def create
-        return render json: @user, status: :ok if @user.present?
+        return render json: @user.to_builder.target!, status: :ok if @user
         result = @user_service.create_user
         if result.success?
           render json: result.user, status: :ok
@@ -32,7 +32,10 @@ module Api
       end
 
       def set_user
-        @user = User.find_by_id(params[:id]) || User.find_by_username(user_params[:username])
+        @user = User.includes(:activity_levels, :food_intakes, :recipes)
+                    .find_by_id(params[:id]) ||
+                User.includes(:activity_levels, :food_intakes, :recipes)
+                    .find_by_username(user_params[:username])
       end
 
       def set_service
