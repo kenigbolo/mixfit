@@ -78,4 +78,15 @@ RSpec.describe User, type: :model do
     it { should have_many(:activity_levels) }
     it { should have_many(:food_intakes) }
   end
+
+  context 'validates prescence' do
+    it { should validate_presence_of(:username) }
+    it { should validate_presence_of(:weight) }
+    it { should validate_presence_of(:height) }
+  end
+
+  context 'validates numericality' do
+    it { should validate_numericality_of(:weight) }
+    it { should validate_numericality_of(:height) }
+  end
 end

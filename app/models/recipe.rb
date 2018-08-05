@@ -6,7 +6,7 @@ class Recipe < ApplicationRecord
 
   validates :vitamin_c, :vitamin_d3, :iron, presence: true
   validates :vitamin_c, :vitamin_d3, :iron, numericality: { only_integer: true }
-  validates_inclusion_of :vitamin_c, :vitamin_d3, :iron, in: 1..10
+  validates_inclusion_of :vitamin_c, :vitamin_d3, :iron, in: 1..10, message: 'must be a positive integer between 1 to 10'
   validates_associated :user, :activity_level, :food_intake
 
   def to_builder
