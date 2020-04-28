@@ -42,7 +42,7 @@ group :development, :test do
   # Rspec Rails for unit testing
   gem 'rspec-rails', '~> 4.0'
   # Factory Bot for generating factories
-  gem "factory_bot_rails", "~> 5.1"
+  gem "factory_bot_rails", "~> 5.2"
   # Use faker to generate sample Data
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 end
